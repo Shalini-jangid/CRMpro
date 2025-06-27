@@ -18,6 +18,8 @@ const userSchema = new mongoose.Schema({
   trialPeriodStart: { type: Date, default: Date.now },
   trialPeriodEnd: { type: Date },
   remainingTime: { type: String }, 
+  joinDate: { type: Date, default: Date.now },
+  lastLogin: { type: Date, default: Date.now },
 
 }, { timestamps: true });
 

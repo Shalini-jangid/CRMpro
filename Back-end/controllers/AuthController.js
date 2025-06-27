@@ -28,26 +28,9 @@ const calculateRemainingTime = (endDate) => {
   return daysLeft > 0 ? `${daysLeft} day(s)` : "Expired";
 };
 
-// Admin Login
-const adminLogin = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
 
-  if (email === "admin@123" && password === "admin@123") {
-    const token = generateToken("admin-id", "admin");
 
-    return res
-      .cookie("token", token, cookieOptions)
-      .json({
-        _id: "admin-id",
-        firstName: "Admin",
-        email,
-        role: "admin",
-      });
-  } else {
-    res.status(401);
-    throw new Error("Invalid admin credentials");
-  }
-});
+
 
 // Register User
 const registerUser = asyncHandler(async (req, res) => {
@@ -268,8 +251,11 @@ const getProfile = asyncHandler(async (req, res) => {
     trialPeriodStart: req.user.trialPeriodStart,
     trialPeriodEnd: req.user.trialPeriodEnd,
     remainingTime: req.user.remainingTime,
+    joinDate: req.user.createdAt,          // ✅ Added join date
+    lastLogin: req.user.lastLogin || null, // ✅ Added last login
   });
 });
+
 
 // Update User
 const updateUser = asyncHandler(async (req, res) => {
@@ -292,7 +278,7 @@ const deleteUser = asyncHandler(async (req, res) => {
 });
 
 module.exports = {
-  adminLogin,
+
   registerUser,
   loginUser,
   sendLoginOtp,

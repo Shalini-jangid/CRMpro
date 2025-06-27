@@ -12,6 +12,7 @@ import PricingPage from './pages/PricingPage';
 import PublicLayout from './Layouts/PublicLayout';
 import DashboardLayout from './Layouts/DashboardLayout';
 import Dashboard from './components/Dashboard';
+import AdminDashboard from './components/AdminDashboard';
 
 
 function App() {
@@ -57,6 +58,7 @@ function MainApp() {
           }
         >
           <Route index element={<Dashboard/>} />
+          <Route path='/admin-dashboard' element={<AdminDashboard/>}/>
         </Route>
       </Routes>
 

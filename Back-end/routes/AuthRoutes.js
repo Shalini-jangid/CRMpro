@@ -4,7 +4,6 @@ const {
   registerUser,
   loginUser,
   logoutUser,
-  adminLogin,
   sendLoginOtp,
   loginWithOtp,
   sendResetOtp,
@@ -24,7 +23,7 @@ router.post("/login-with-otp", loginWithOtp);
 router.post("/send-reset-otp", sendResetOtp);
 router.post("/verify-otp-and-reset-password", verifyOtpAndResetPassword);
 router.post("/logout", logoutUser);
-router.post("/admin/login", adminLogin);
+
 
 // Admin protected routes
 router.get("/users", protect, isAdmin, getAllUsers);
