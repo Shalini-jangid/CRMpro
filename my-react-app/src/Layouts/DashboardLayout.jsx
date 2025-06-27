@@ -17,7 +17,7 @@ const DashboardLayout = () => {
 
   return (
     <div className="p-6">
-      <p className="text-gray-500">Redirecting to your dashboard...</p>
+      <Dashboard />
     </div>
   );
 };
