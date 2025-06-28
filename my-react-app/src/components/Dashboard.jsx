@@ -8,8 +8,6 @@ import {
   Phone, 
   Mail, 
   BarChart3,
-  PieChart,
-  Bell,
   Search,
   Filter,
   Plus,
@@ -28,7 +26,6 @@ import {
   Briefcase,
   Calculator,
   Bot,
-  Send,
   HelpCircle,
   Zap,
   Globe,
@@ -150,6 +147,14 @@ useEffect(() => {
     { id: 4, task: 'Weekly team sync', time: '5:30 PM', type: 'meeting' }
   ];
 
+
+  const handleMenuClick = (itemId) => {
+  if (itemId === 'sales') {
+    navigate('/sales'); // Navigate to sales page
+  } else {
+    setActiveTab(itemId); // For other tabs, just set active tab
+  }
+};
   const menuItems = [
     { 
       id: 'overview', 
@@ -163,6 +168,7 @@ useEffect(() => {
       icon: Target, 
       category: 'main',
       submenu: ['Leads', 'Deals', 'Pipeline', 'Forecasting', 'Reports']
+      
     },
     { 
       id: 'marketing', 
@@ -637,7 +643,7 @@ useEffect(() => {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-6">
+        <main className="flex-1">
           {activeTab === 'overview' && (
             <>
               {/* Stats Cards */}

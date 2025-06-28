@@ -76,8 +76,7 @@ function LoginPage() {
   };
 
   // Get API base URL from environment
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || `http://localhost:${import.meta.env.VITE_PORT || 3000}`;
-
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -150,6 +149,11 @@ const handlePasswordLogin = async () => {
   try {
     // ✅ Use the AuthContext login method correctly
     const result = await login(formData.email, formData.password);
+    if (result?.token) {
+  localStorage.setItem('token', result.token);
+  localStorage.setItem('role', result.role ); // fallback to 'user'
+}
+
     
     showToast(`Welcome back, ${result.user?.firstName || result.firstName || result.email || formData.email}! 🎉`, 'success', 3000);
     setFormData({ email: '', password: '', otp: '', newPassword: '', confirmPassword: '', rememberMe: false });

@@ -11,13 +11,13 @@ const userSchema = new mongoose.Schema({
   industry: String,
   password: { type: String, required: true },
   confirmPassword: { type: String },
-
-  otp: { type: String },             
-  otpExpiry: { type: Date },        
+  role: { type: String, enum: ['user', 'admin'], default: 'user' },
+  otp: { type: String },
+  otpExpiry: { type: Date },
 
   trialPeriodStart: { type: Date, default: Date.now },
   trialPeriodEnd: { type: Date },
-  remainingTime: { type: String }, 
+  remainingTime: { type: String },
   joinDate: { type: Date, default: Date.now },
   lastLogin: { type: Date, default: Date.now },
 

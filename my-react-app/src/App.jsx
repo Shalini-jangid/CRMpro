@@ -11,8 +11,9 @@ import FeaturesPage from './pages/Features';
 import PricingPage from './pages/PricingPage';
 import PublicLayout from './Layouts/PublicLayout';
 import DashboardLayout from './Layouts/DashboardLayout';
-import Dashboard from './components/Dashboard';
+
 import AdminDashboard from './components/AdminDashboard';
+
 
 
 function App() {
@@ -23,7 +24,7 @@ function App() {
   );
 }
 
-function MainApp() {
+function MainApp(){
   const { isAuthenticated, loading } = useAuth();
 
   if (loading) return <p>Loading...</p>; 
@@ -47,9 +48,7 @@ function MainApp() {
         </Route>
 
         {/* Protected Dashboard Layout */}
-        <Route
-          path="/dashboard"
-          element={
+        <Route path="/dashboard" element={
             isAuthenticated() ? (
               <DashboardLayout />
             ) : (
@@ -57,9 +56,10 @@ function MainApp() {
             )
           }
         >
-          <Route index element={<Dashboard/>} />
-          <Route path='/admin-dashboard' element={<AdminDashboard/>}/>
+         
+         
         </Route>
+        <Route path='/admin-dashboard' element={<AdminDashboard/>}/>
       </Routes>
 
      

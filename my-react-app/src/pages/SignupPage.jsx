@@ -43,7 +43,7 @@ const SignupPage = () => {
     { value: 'consulting', label: 'Consulting' },
     { value: 'other', label: 'Other' }
   ];
-const { API_BASE_URL } = useAuth();
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;

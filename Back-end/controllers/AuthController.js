@@ -71,6 +71,7 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 // Login with Email + Password
+// Login with Email + Password
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
@@ -80,24 +81,33 @@ const loginUser = asyncHandler(async (req, res) => {
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) throw new Error("Invalid credentials");
 
+  // Trial check
   if (user.trialPeriodEnd && new Date() > user.trialPeriodEnd) {
     user.remainingTime = "Expired";
     await user.save();
     return res.status(403).json({ message: "Trial expired. Please upgrade." });
   }
 
+  // Update trial remaining time
   user.remainingTime = calculateRemainingTime(user.trialPeriodEnd);
   await user.save();
 
-  const token = generateToken(user._id);
+  // ✅ Generate token with role
+  const token = generateToken(user._id, user.role || 'user');
 
+  // ✅ Set cookie and return role, token
   res.cookie("token", token, cookieOptions).json({
-    _id: user._id,
-    firstName: user.firstName,
-    email: user.email,
-    remainingTime: user.remainingTime,
+    token,                           // 👈 include token in response
+    role: user.role || 'user',       // 👈 include role in response
+    user: {
+      _id: user._id,
+      firstName: user.firstName,
+      email: user.email,
+      remainingTime: user.remainingTime,
+    }
   });
 });
+
 
 // Send OTP for Login
 const sendLoginOtp = asyncHandler(async (req, res) => {

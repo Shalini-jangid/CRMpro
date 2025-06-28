@@ -1,25 +1,26 @@
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
 import Dashboard from '../components/Dashboard';
 
 const DashboardLayout = () => {
-  const { user } = useAuth();
   const navigate = useNavigate();
+  const [valid, setValid] = useState(false);
 
   useEffect(() => {
-    if (user?.role === 'admin') {
-      navigate('/admin-dashboard');
-    } else if (user?.role === 'user') {
-      navigate('/dashboard');
-    }
-  }, [user, navigate]);
+    const role = localStorage.getItem('role');
 
-  return (
-    <div className="p-6">
-      <Dashboard />
-    </div>
-  );
+    if (role === 'admin') {
+      navigate('/admin-dashboard');
+    } else if (role === 'user') {
+      setValid(true); 
+    } else {
+      navigate('/login');
+    }
+  }, [navigate]);
+
+  if (!valid) return null; 
+
+  return <Dashboard />; 
 };
 
 export default DashboardLayout;

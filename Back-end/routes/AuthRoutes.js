@@ -12,8 +12,8 @@ const {
   getProfile,
   updateUser,
   deleteUser,
-} = require("../controllers/authController");
-const { protect, isAdmin } = require("../middlewares/authMiddleware");
+} = require("../controllers/AuthController");
+const { protect } = require("../middlewares/authMiddleware");
 
 // Public routes
 router.post("/register", registerUser);
@@ -26,9 +26,9 @@ router.post("/logout", logoutUser);
 
 
 // Admin protected routes
-router.get("/users", protect, isAdmin, getAllUsers);
+router.get("/users", protect, getAllUsers);
 router.get("/user", protect, getProfile);
-router.put("/user/:id", protect, isAdmin, updateUser);
-router.delete("/user/:id", protect, isAdmin, deleteUser);
+router.put("/user/:id", protect, updateUser);
+router.delete("/user/:id", protect, deleteUser);
 
 module.exports = router;
