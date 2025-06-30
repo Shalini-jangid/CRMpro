@@ -7,6 +7,8 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const AuthRoutes = require("./routes/AuthRoutes");
 const FeedbackRoutes = require("./routes/FeedbackRoutes");
+const PipelineRoutes = require("./routes/pipelineRoutes");
+const TeamRoutes = require("./routes/teamRoutes");
 
 // Connect to DB
 connectDB();
@@ -30,6 +32,8 @@ app.use(cookieParser());
 // Routes
 app.use("/api/auth", require("./routes/AuthRoutes"));
 app.use("/api/feedback", require("./routes/FeedbackRoutes"));
+app.use("/api/pipeline", require("./routes/pipelineRoutes"));
+app.use("/api/team", require("./routes/teamRoutes"));
 
 // Default route
 app.get("/", (req, res) => {

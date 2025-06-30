@@ -71,7 +71,7 @@ function LoginPage() {
   // Redirect helper function - Updated to navigate to /dashboard
   const redirectToDashboard = () => {
     setTimeout(() => {
-      window.location.href = '/dashboard';
+      window.location.href = '/dashboardLayout';
     }, 1500); // Small delay to show success message
   };
 

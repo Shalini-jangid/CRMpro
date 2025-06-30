@@ -91,54 +91,58 @@ const SalesPage = () => {
     }
   };
 
-  const handleCRUD = async (action, type, data = null) => {
-    try {
-      setLoading(true);
-      let url = '';
-      let method = 'GET';
-      
-      switch (action) {
-        case 'create':
-          url = `${API_BASE}/${type}`;
-          method = 'POST';
-          break;
-        case 'update':
-          url = `${API_BASE}/${type}/${data.id}`;
-          method = 'PUT';
-          break;
-        case 'delete':
-          url = `${API_BASE}/${type}/${data.id}`;
-          method = 'DELETE';
-          break;
-      }
+const handleCRUD = async (action, type, data = null) => {
+  try {
+    setLoading(true);
+    let url = `${API_BASE}/api/${type}`;
+    let method = 'GET';
 
-      // Replace with actual API call
-      // const response = await fetch(url, {
-      //   method,
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //     'Authorization': `Bearer ${token}`
-      //   },
-      //   body: method !== 'GET' && method !== 'DELETE' ? JSON.stringify(data) : undefined
-      // });
-
-      // Mock success response
-      console.log(`${action} ${type}:`, data);
-      
-      // Refresh data based on type
-      if (type === 'pipeline') fetchPipelineData();
-      if (type === 'team') fetchTeamData();
-      if (type === 'sales') fetchSalesData();
-      
-      setShowModal(false);
-      setSelectedItem(null);
-      
-    } catch (error) {
-      console.error(`Error ${action} ${type}:`, error);
-    } finally {
-      setLoading(false);
+    switch (action) {
+      case 'create':
+        method = 'POST';
+        break;
+      case 'update':
+        url = `${API_BASE}/api/${type}/${data?.id}`;
+        method = 'PUT';
+        break;
+      case 'delete':
+        url = `${API_BASE}/api/${type}/${data?.id}`;
+        method = 'DELETE';
+        break;
     }
-  };
+
+    const response = await fetch(url, {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: method !== 'GET' && method !== 'DELETE' ? JSON.stringify(data) : undefined,
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      const errorRes = await response.json();
+      throw new Error(errorRes.message || `Request failed with status ${response.status}`);
+    }
+
+    const result = await response.json();
+    console.log(`${action} ${type}:`, result);
+
+    if (type === 'pipeline') fetchPipelineData();
+    if (type === 'team') fetchTeamData();
+    if (type === 'sales') fetchSalesData();
+
+    setShowModal(false);
+    setSelectedItem(null);
+
+  } catch (error) {
+    console.error(`Error ${action} ${type}:`, error.message);
+  } finally {
+    setLoading(false);
+  }
+};
+
+
 
   const canPerformAction = (action) => {
     if (user?.role === 'admin') return true;
@@ -187,7 +191,7 @@ const SalesPage = () => {
       company: '',
       value: '',
       stage: 'Qualified',
-      manager: user?.name || '',
+      manager: '',
       probability: 50
     });
 
@@ -210,6 +214,7 @@ const SalesPage = () => {
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Deal Value</label>
+
           <input
             type="number"
             value={formData.value}
@@ -217,6 +222,20 @@ const SalesPage = () => {
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             required
           />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Manager</label>
+          <select
+            value={formData.manager}
+            onChange={(e) => setFormData({...formData, manager: e.target.value})}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          >
+            <option value="choose">Choose</option>
+            <option value="name1">Venkastesh Kumawat</option>
+            <option value="name2">Shivam Sharma</option>
+            <option value="name3">Vilakshana Rathore</option>
+          
+          </select>
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Stage</label>
@@ -248,7 +267,7 @@ const SalesPage = () => {
             type="submit"
             className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
           >
-            {item ? 'Update' : 'Create'} Deal
+            {item ? 'Update' : 'Create'} 
           </button>
           <button
             type="button"
@@ -350,7 +369,7 @@ const SalesPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="w-full min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -699,26 +718,5 @@ const SalesPage = () => {
   );
 };
 
-// // Mock AuthProvider for demo - Replace with your actual AuthProvider
-// const AuthProvider = ({ children }) => {
-//   const authValue = {
-//     user: { id: 1, name: 'John Doe', role: 'admin', email: 'john@company.com' },
-//     isAuthenticated: true
-//   };
-
-//   return (
-//     <AuthContext.Provider value={authValue}>
-//       {children}
-//     </AuthContext.Provider>
-//   );
-// };
-
-// export default function App() {
-//   return (
-//     <AuthProvider>
-//       <SalesDashboard />
-//     </AuthProvider>
-//   );
-// }
 
 export default SalesPage;
