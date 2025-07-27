@@ -16,7 +16,7 @@ connectDB();
 // CORS setup
 const allowedOrigins = [
   "http://localhost:5173", 
-  "https://your-deployed-frontend.com" 
+  "https://cr-mpro.vercel.app" 
 ];
 
 app.use(cors({
