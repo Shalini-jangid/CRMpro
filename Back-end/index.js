@@ -14,8 +14,7 @@ const TeamRoutes = require("./routes/teamRoutes");
 connectDB();
 
 // CORS setup
-const allowedOrigins = [
-  "http://localhost:5173", 
+const allowedOrigins = [ 
   "https://cr-mpro.vercel.app" 
 ];
 
